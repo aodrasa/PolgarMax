@@ -1,9 +1,6 @@
-import { Button } from "@/components/ui/button"
-
 export default function Home() {
-  return (<>
-    <Button variant="destructive">Click</Button>
-    <p className="text-6xl">Hello world</p>
+    return (<>
+        <p className="text-6xl">Welcome to Dashboard (protected)</p>
     </>
-  )
+    )
 }
