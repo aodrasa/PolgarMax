@@ -1,46 +1,58 @@
+"use client";
+import {
+    ArrowRight,
+    MessageSquare,
+    Music,
+    Image,
+    Video,
+    Code
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ArrowRight, MessageSquare, Music, Image, Video, Code } from "lucide-react";
+
+const tools = [
+    {
+        label: "Conversation",
+        icon: MessageSquare,
+        color: "text-violet-500",
+        bgColor: "bg-violet-500/10",
+        href: "/coversation"
+    },
+    {
+        label: "Music Generation",
+        icon: Music,
+        color: "text-emerald-500",
+        bgColor: "bg-emerald-500/10",
+        href: "/music"
+    },
+    {
+        label: "Image Generation",
+        icon: Image,
+        color: "text-emerald-700",
+        bgColor: "bg-emerald-700/10",
+        href: "/image"
+    },
+    {
+        label: "Video Generation",
+        icon: Video,
+        color: "text-emerald-700",
+        bgColor: "bg-emerald-700/10",
+        href: "/video"
+    },
+    {
+        label: "Code Generation",
+        icon: Code,
+        color: "text-emerald-700",
+        bgColor: "bg-emerald-700/10",
+        href: "/code"
+    },
+]
 
 const DashboardPage = () => {
+    const router = useRouter();
 
-    const tools = [
-        {
-            label: "Conversation",
-            icon: MessageSquare,
-            color: "text-violet-500",
-            bgColor: "bg-violet-500/10",
-            href: "/coversation"
-        },
-        {
-            label: "Music Generation",
-            icon: Music,
-            color: "text-emerald-500",
-            bgColor: "bg-emerald-500/10",
-            href: "/music"
-        },
-        {
-            label: "Image Generation",
-            icon: Image,
-            color: "text-emerald-700",
-            bgColor: "bg-emerald-700/10",
-            href: "/image"
-        },
-        {
-            label: "Video Generation",
-            icon: Video,
-            color: "text-emerald-700",
-            bgColor: "bg-emerald-700/10",
-            href: "/video"
-        },
-        {
-            label: "Code Generation",
-            icon: Code,
-            color: "text-emerald-700",
-            bgColor: "bg-emerald-700/10",
-            href: "/code"
-        },
-    ]
 
     return (
         <div>
@@ -55,6 +67,7 @@ const DashboardPage = () => {
             <div className="px-4 md:px-20 lg:px-32 space-y-4">
                 {tools.map((tool) => (
                     <Card
+                        onClick={() => router.push(tool.href)}
                         key={tool.href}
                         className="p-4 border-black/5 flex items-center justify-between hover:shadow-md translation cursor-pointer"
                     >
