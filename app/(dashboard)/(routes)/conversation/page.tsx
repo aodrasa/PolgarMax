@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { formSchema } from "./constants";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const ConversationPage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
@@ -60,16 +61,21 @@ const ConversationPage = () => {
                                             <Input
                                                 className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                                                 disabled={isLoading}
-                                                placeholder="Write a marketing campaign outline that uses [emotional appeal] to persuade [ideal customers] to take action and purchase [product/service]."
+                                                placeholder="Ex: Write a marketing campaign to persuade customers to take action and purchase."
                                                 {...field}
                                             />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
-
+                            <Button className="col-span-12 lg:col-span-2 w-full" disabled={isLoading}>
+                                Generate
+                            </Button>
                         </form>
                     </Form>
+                </div>
+                <div className="space-y-4 mt-4">
+                    Message content
                 </div>
             </div>
         </div>
