@@ -12,7 +12,7 @@ export async function POST(
     req: Request
 ) {
     try {
-        const { userId } = await auth();
+        const { userId } = auth();
         const body = await req.json();
         const { messages } = body;
 
