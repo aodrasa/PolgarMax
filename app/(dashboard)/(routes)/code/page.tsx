@@ -3,7 +3,7 @@
 import axios from "axios";
 import * as z from "zod";
 import { Heading } from "@/components/heading";
-import { MessagesSquare } from "lucide-react";
+import { Code } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { ChatCompletionRequestMessage } from "openai";
 
@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
 
-const ConversationPage = () => {
+const CodePage = () => {
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
@@ -58,11 +58,11 @@ const ConversationPage = () => {
     return (
         <div>
             <Heading
-                title="Conversation"
-                description="Start conversation with gpt-4 for free"
-                icon={MessagesSquare}
-                iconColor="text-violet-500"
-                bgColor="bg-violet-500/10"
+                title="Code Generation"
+                description="Generate Code and solve coding bugs using descriptive text."
+                icon={Code}
+                iconColor="text-green-700"
+                bgColor="bg-green-700/10"
             />
             <div className="px-4 lg:px-8">
                 <div>
@@ -134,4 +134,4 @@ const ConversationPage = () => {
     );
 }
 
-export default ConversationPage;
+export default CodePage;
