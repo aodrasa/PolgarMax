@@ -90,7 +90,7 @@ const CodePage = () => {
                                             <Input
                                                 className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                                                 disabled={isLoading}
-                                                placeholder="Ex: Write a marketing campaign to persuade customers to take action and purchase."
+                                                placeholder="Ex: Simple toggle button using react hooks."
                                                 {...field}
                                             />
                                         </FormControl>
