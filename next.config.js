@@ -2,7 +2,7 @@
 const nextConfig = {
     images : {
         domains : [
-            "oaidalleapiprodscus.blod.core.windows.net",
+            "oaidalleapiprodscus.blob.core.windows.net",
         ]
     }
 }
