@@ -5,7 +5,6 @@ import * as z from "zod";
 import { Heading } from "@/components/heading";
 import { Music } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
-import { ChatCompletionRequestMessage } from "openai";
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -104,9 +103,11 @@ const MusicPage = () => {
                     {!music && !isLoading && (
                         <Empty label="No music generated!" />
                     )}
-                    <div>
-                        Generate Music
-                    </div>
+                    {music && (
+                        <audio controls className="w-full mt-8">
+                            <source src={music} />
+                        </audio>
+                    )}
                 </div>
             </div>
         </div>
