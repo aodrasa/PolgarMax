@@ -3,32 +3,32 @@
 import axios from "axios";
 import * as z from "zod";
 import { Heading } from "@/components/heading";
-import { MessagesSquare } from "lucide-react";
+import { ImageIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
-import { ChatCompletionRequestMessage } from "openai";
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
-import { formSchema } from "./constants";
+import { amountOptions, formSchema } from "./constants";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
-import { cn } from "@/lib/utils";
-import { UserAvatar } from "@/components/user-avatar";
-import { BotAvatar } from "@/components/bot-avatar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const ConversationPage = () => {
+
+const ImagePage = () => {
     const router = useRouter();
-    const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+    const [images, setImages] = useState<string[]>([]);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            prompt: ""
+            prompt: "",
+            amount: "1",
+            resolution:"512x512"
         }
     });
 
@@ -36,17 +36,13 @@ const ConversationPage = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const userMessage: ChatCompletionRequestMessage = {
-                role: "user",
-                content: values.prompt,
-            };
-            const newMessages = [...messages, userMessage];
+            setImages([]);
 
-            const response = await axios.post("/api/conversationapi", {
-                messages: newMessages
-            });
+            const response = await axios.post("/api/image", values);
 
-            setMessages((current) => [...current, userMessage, response.data]);
+            const urls = response.data.map((image: {url: string}) => image.url);
+
+            setImages(urls);
             form.reset();
         } catch (error: any) {
             console.log(error);
@@ -58,11 +54,11 @@ const ConversationPage = () => {
     return (
         <div>
             <Heading
-                title="Conversation"
-                description="Start conversation with gpt-4 for free"
-                icon={MessagesSquare}
-                iconColor="text-violet-500"
-                bgColor="bg-violet-500/10"
+                title="Image Generation"
+                description="Turn your text to image"
+                icon={ImageIcon}
+                iconColor="text-pink-700"
+                bgColor="bg-pink-700/10"
             />
             <div className="px-4 lg:px-8">
                 <div>
@@ -90,10 +86,37 @@ const ConversationPage = () => {
                                             <Input
                                                 className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                                                 disabled={isLoading}
-                                                placeholder="Ex: Write a marketing campaign to persuade customers to take action and purchase."
+                                                placeholder="Ex: A photorealistic portrait of a cat."
                                                 {...field}
                                             />
                                         </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField 
+                                control={form.control}
+                                name="amount"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-12 lg:col-span-2">
+                                        <Select
+                                        disabled={isLoading}
+                                        onValueChange={field.onChange}
+                                        value={field.value}
+                                        defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue defaultValue={field.value} />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {amountOptions.map((option) => (
+                                                    <SelectItem key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                     </FormItem>
                                 )}
                             />
@@ -105,28 +128,15 @@ const ConversationPage = () => {
                 </div>
                 <div className="space-y-4 mt-4">
                     {isLoading && (
-                        <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
+                        <div className="p-20">
                             <Loader />
                         </div>
                     )}
-                    {messages.length === 0 && !isLoading && (
-                        <Empty label="No conversation started!" />
+                    {images.length === 0 && !isLoading && (
+                        <Empty label="No image generated!" />
                     )}
-                    <div className="flex flex-col-reverse gap-y-4">
-                        {messages.map((message) => (
-                            <div
-                                key={message.content}
-                                className={cn(
-                                    "p-8 w-full flex items-start gap-x-8 rounded-lg", message.role === "user" ? "bg-white border border-black/10" : "bg-muted"
-                                )}
-                            > 
-                                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                                <p className="text-sm">
-                                    {message.content}
-                                </p>
-
-                            </div>
-                        ))}
+                    <div>
+                        Images will be rendered
                     </div>
                 </div>
             </div>
@@ -134,4 +144,4 @@ const ConversationPage = () => {
     );
 }
 
-export default ConversationPage;
+export default ImagePage;
