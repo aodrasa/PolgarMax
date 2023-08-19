@@ -31,7 +31,7 @@ export const amountOptions = [
     },
 ];
 
-export const resolution = [
+export const resolutionOptions = [
     {
         value: "256x256",
         label: "256x256"
